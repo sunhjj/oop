@@ -22,11 +22,12 @@ class UrlHandler:
     finally:
       return jsonData
     
-  def request(self, url:str, isHtml:bool=True):
+  def request(self, url:str, userAgent:str=None, isHtml:bool=True):
     if url is None:      
       return UrlHandler.url_is_empty
-    
-    res = requests.get(url)
+    #cookie = 'YSC=WUySKZimQq8; VISITOR_INFO1_LIVE=p0u6E9FfurQ; DEVICE_INFO=ChxOekU0TmprNE5qazVNVFUzTWpZME5EQXdPQT09EJed9Z0GGJed9Z0G; HSID=A7hoP1eji1YxhCt11; SSID=A2WGeNgGFOQ0eipjD; APISID=llttYuxDJ9Oicl7B/AdDBy_sf4-UL0yIQd; SAPISID=-lemmwRXAPzgunZk/AvNSRQ4E-9joeYhKV; __Secure-1PAPISID=-lemmwRXAPzgunZk/AvNSRQ4E-9joeYhKV; __Secure-3PAPISID=-lemmwRXAPzgunZk/AvNSRQ4E-9joeYhKV; PREF=f6=80080&f7=100&tz=Asia.Seoul&f3=8&f4=4000000&f5=30000; SID=Vwg09D8XmS7hM1utxtfsCu2d5Bvh9xK_02aZrjWfMz5sKk_QK29R1O8ej688ErLIRvgWAw.; __Secure-1PSID=Vwg09D8XmS7hM1utxtfsCu2d5Bvh9xK_02aZrjWfMz5sKk_QTnd6-PPwzyG9UeCupBNHnw.; wide=1; LOGIN_INFO=AFmmF2swRQIhAJPHkuKIhj8C9wWTP_InT-7u_yeq1t5G1AJ01cilpgLXAiBocg2epX67JVSUbsTKojU1jFOYtZGKu7i0ZmkV0_VslQ:QUQ3MjNmd1h3eFFLbGJVZVp1UkNLUlFGRmFWei1nRWVPNWx0OV9CMzBUUUxMOWZLUU1YUTlNOVZZQ0Izd3JGcGR0djhTalQ2bVNpVmsyQWduS1p5UHJuNFJ1TDBTYS1sMGh3ckwzM0lmME1wX19aNlR0SEE0WEFBYkF1bVBielg3NmdzNkhBTk1jOUpGRlhDNWd3alpDdmQyZGNYSXQzQm5R; __Secure-3PSID=Vwg09D8XmS7hM1utxtfsCu2d5Bvh9xK_02aZrjWfMz5sKk_QfNp18-HKyQGwHvro82kc4A.; SIDCC=AP8dLtxbjxNyuwOcV6BBTtudMc_HZu9AWK8CutikWgFRiDzGmlCh8o6kec-_xEeIVF7PTl8nOSY; __Secure-1PSIDCC=AP8dLtwUXeVqpc2OE5__d5perfPlSRDZIXxE7J3cZB5-FJO2AIlECUE2XRcmAEuXswtGq8COhBw; __Secure-3PSIDCC=AP8dLtwlPv-vHnfbTzT74QvkfsffFUyqhxJnfFakJ6sb75K01yJ3Tk8kGTANEueMCplfojDo8t8'
+    header = {'User-Agent': userAgent} #, 'cookie':cookie}
+    res = requests.get(url, headers=header)
     if res.status_code == 200:      
       self.__url = url
       return res.content if isHtml else self.returnJson(res.content)
