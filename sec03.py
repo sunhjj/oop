@@ -101,6 +101,8 @@ dic = dict(zip(cities, weathers))
 for city in dic:
   print( city.name )
   print( dic[city].weather )
+  print( dic[city].main )
+  print()
 
 # curWeather = CurrentWeather(city1)
 # print(curWeather.weather[0])
