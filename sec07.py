@@ -21,19 +21,21 @@ class YouTubeThumbnailGetter(UrlHandler):
     #   f.write(str(htmlData))
       
     bs = BeautifulSoup(htmlData, 'html.parser')
-    imgs = bs.find_all('img', attrs={'class':'rg_i Q4LuWd'})    
+    imgs = bs.find_all('img') #, attrs={'class':'rg_i Q4LuWd'})    
     for img in imgs:
-      # print(img.attrs)
-      try:
-        img_url=img['data-src']
-      except:
-        continue
+      print(img.attrs)
       
-      res = self.request(img_url)
-      if res:
-        now = datetime.datetime.now()
-        with open('pyimg_'+now.strftime("%Y%m%d_%H%M%S")+'.jpg', "wb") as f:        
-          f.write( res )
+      # try:
+      #   img_url=img['src']
+      # except:
+      #   img_url=img['data-src']
+      #   continue
+      
+      # res = self.request(img_url)
+      # if res:
+      #   now = datetime.datetime.now()
+      #   with open('pyimg_'+now.strftime("%Y%m%d_%H%M%S")+'.jpg', "wb") as f:        
+      #     f.write( res )
       
       
       
