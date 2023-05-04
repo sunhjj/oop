@@ -83,19 +83,3 @@ sp.searchImage()
 end = time.time()
 print(f'프로그램 종료 : {end-start}')
 
-# gi = GoogleImageGetter()
-# print(vars(gi))
-
-
-
-# liThread = []
-# for i in range(5):
-#   liThread.append(ThreadWrapper())
-  
-# print(f"{len(liThread)}개의 스레드가 생성됨!!!")
-
-# for thread in liThread:
-#   thread.start()
-#   print(f'{thread}가 시작됨...')
-  
-# print('모든 스레드가 시작되었습니다!!!')
