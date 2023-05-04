@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from sec06 import UrlHandler
 
 
-class YouTubeThumbnailGetter(UrlHandler):
+class GoogleImageFinder(UrlHandler):
   def __init__(self) -> None:
     super().__init__()
     
@@ -40,6 +40,6 @@ class YouTubeThumbnailGetter(UrlHandler):
       
       
 
-ytImgGetter = YouTubeThumbnailGetter()
+ytImgGetter = GoogleImageFinder()
 ytImgGetter.init()
       

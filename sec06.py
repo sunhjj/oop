@@ -9,6 +9,7 @@ class UrlHandler:
   url_is_empty:str = "URL is empty"
   
   def __init__(self) -> None:
+    super().__init__()
     self.__url = None    
     
   def returnJson(self, content:bytes):
