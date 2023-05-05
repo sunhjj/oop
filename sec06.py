@@ -1,6 +1,11 @@
 import requests, json
 import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
 from bs4 import BeautifulSoup
+
 
 
 
@@ -36,6 +41,9 @@ class UrlHandler:
       
       
 class CheckIterable:
+  def __init__(self) -> None:
+    super().__init__()
+    
   """아주 초간단한 Iterable한 객체인지 체크하는 클래스"""
   def isIterable(self, obj:object) -> bool:    
     """Iterable한 객체이면 True를 아니면 False를 반환"""
@@ -62,13 +70,33 @@ class StockInfoGetter(UrlHandler, CheckIterable):
   def update(self):
     self.init(self)
     
+  def convertToNumeric(self, val:str) -> any:
+    val = val.replace(',', '')
+    val = val.replace('%', '')
+    val = val.replace('N/A', '0')
+    try:
+      return int(val)
+    except ValueError:
+      try:
+        return float(val)
+      except ValueError:
+        return val
+    
+  def updateToNumeric(self, liStr:list) -> any:
+    if not self.isIterable(liStr):
+      return liStr
+    
+    retLi = []
+    for item in liStr:
+      retLi.append(self.convertToNumeric(item))
+      
+    return retLi
+    
   def _parseHtml(self, htmlData):
     bs = BeautifulSoup(htmlData, 'html.parser')    
     table = bs.find('table', {'class':'type_2'})
     if not self.isIterable(table):
       return
-    
-    
     
     self.liHead = [item for item in table.thead.text.split('\n') if item ]    
     
@@ -102,9 +130,9 @@ class StockInfoGetter(UrlHandler, CheckIterable):
         if a:
           li.append(a.text.strip())
         else:
-          li.append( int(td.text.strip()) if td.text.strip().isnumeric() else td.text.strip() )
-          
-          
+          li.append( self.convertToNumeric(td.text.strip()) )
+                    
+                    # int(td.text.strip()) if td.text.strip().isnumeric() else td.text.strip() )
       if len(li):
         litr.append(li)
     
@@ -113,14 +141,30 @@ class StockInfoGetter(UrlHandler, CheckIterable):
     self.df = pd.DataFrame(litr, index=None, columns=self.liHead) #, columns=self.liHead)
     # print(self.df)
   
+  
+fp = fm.FontProperties(family=['AppleGothic'], size=12)
 
 sGetter = StockInfoGetter()
 res = sGetter.init()
-sGetter.df.to_excel('output.xlsx', index=False)
+df = sGetter.df
+df.loc[df['등락률']<0, '전일비'] = -df['전일비']
+df.to_excel('output.xlsx', index=False)
+df = df.reset_index(drop=True)
+df.drop('N', axis=1, inplace=True)
+df.drop('토론실', axis=1, inplace=True)
+df = df.set_index('종목명')
+print(df.info())
+df.corr().to_excel('parse.xlsx')
+# print(df.to_string())
+df.plot()
+
+print(mpl.rcParams['font.family']) # font
+print(mpl.rcParams['font.size']) # size
+
+plt.rc('font', family='AppleGothic')
+mpl.rcParams['axes.unicode_minus'] = False
+plt.show()
+
+# print(df.corr())
 # print(sGetter.df.loc[[0,2]])
 # print(sGetter.df.info())
-# if res is not None:
-#   print(res)
-# else:
-#   print("URL 요청(Request) 실패!!!")
-

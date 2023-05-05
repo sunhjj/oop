@@ -1,5 +1,6 @@
 '''
 python에서 thread 사용하기
+class, requests, thread, BeutifulSoup, time, os
 '''
 
 from sec06 import UrlHandler
