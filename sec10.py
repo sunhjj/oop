@@ -2,7 +2,7 @@
 Thread와 공유 자원,
 Thread의 종료
 '''
-import threading
+import threading, time
 # from sec09 import ThreadWrapper
 
 class ThreadWrapper:
@@ -16,14 +16,14 @@ class ThreadWrapper:
     return f'ThreadWrapper(id={self.id})'
   
   def start(self) -> None:
-    self.thread = threading.Thread(target=self.__run)
+    self.thread = threading.Thread(target=self.Run)
     self.thread.start()    
     
   @property
   def id(self) -> str:
     return f'ThreadWrapper : {self.__id}'
   
-  def __run(self) -> any: pass
+  def Run(self) -> any: pass
   
 
 class Tickekter(ThreadWrapper):
@@ -36,42 +36,40 @@ class Tickekter(ThreadWrapper):
   def __str__(self) -> str:
     return str(self.prv_tickets)
     
-  def setTicketCount(self, liTicket:list) -> None:
+  def setTickets(self, liTicket:list=[]) -> None:
     self.pub_tickets = liTicket
     
-  def startGetTicket(self):
-    self.start()
+  def startTicketing(self):
+    if len(self.pub_tickets):
+      self.start()
     
-  def __run(self) -> any:
+  def Run(self) -> any:
     index = 0
     while True:
+      time.sleep(0.1)
       if len(self.pub_tickets) <= 0:
         break
       
       self.prv_tickets.append(self.pub_tickets.pop())
        
-    return super().__run()
+    return super().Run()
   
 if __name__ == '__main__':
   tickets = ['ticket1', 'ticket2', 'ticket3']
-  th = Tickekter()
-  th.setTicketCount(tickets)
-  th.start()
-  print(dir(th))
-  print(th.__class__)
-  print(type(th))
+
+  ts = []
+  for i in range(3):
+    t = Tickekter()
+    t.setTickets(tickets)
+    ts.append(t)
+
+  for t in ts:
+    t.startTicketing()
+    
+  time.sleep(1)
+  for t in ts:
+    print(t)
+    
+  print()
+  print(tickets)
   
-  
-  
-# tickets = ['ticket1', 'ticket2', 'ticket3']
-# ts = []
-# for i in range(3):
-#   t = Tickekter()
-#   t.setTicketCount(tickets)
-#   ts.append(t)
-  
-# for t in ts:
-#   t.startGetTicket()
-  
-# for t in ts:
-#   print(t)
