@@ -161,7 +161,7 @@ df.plot()
 print(mpl.rcParams['font.family']) # font
 print(mpl.rcParams['font.size']) # size
 
-plt.rc('font', family='AppleGothic')
+plt.rcParams['font.family'] = 'AppleGothic'
 mpl.rcParams['axes.unicode_minus'] = False
 plt.show()
 
