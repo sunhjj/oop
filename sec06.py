@@ -101,15 +101,15 @@ class StockInfoGetter(UrlHandler, CheckIterable):
     self.liHead = [item for item in table.thead.text.split('\n') if item ]    
     
     litr = list()
-    trs = table.tbody.find_all('tr')
+    trs = table.tbody.find_all('tr', attrs={'onmouseover':True})
     for tr in trs:
-      # tds = tr.find_all('td', class_='blank_08')
+      # tds = tr.find_all('td', class_=['blank_09', 'blank_06', 'blank_08', 'division_line', 'division_line_1'])
       # if len(tds) > 0: 
       #   continue
       
-      tds = tr.find_all('td', class_=['blank_09', 'blank_06', 'blank_08', 'division_line', 'division_line_1'])
-      if len(tds) > 0: 
-        continue
+      # tds = tr.find_all('td', class_='blank_08')
+      # if len(tds) > 0: 
+      #   continue
       
       # tds = tr.find_all('td', class_='blank_06')
       # if len(tds) > 0: 

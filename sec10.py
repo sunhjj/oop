@@ -6,6 +6,11 @@ import threading, time
 # from sec09 import ThreadWrapper
 
 class ThreadWrapper:
+  """
+  파이썬의 Thread를 상속한 클래스 입니다.
+  start() 메소드를 호출하면 내부의 Run() 함수가 호출됩니다.
+  ThreadWrapper() 클래스를 상속받는 클래스는 반드시 Run()메소드를 구현하여야 합니다 
+  """
   thread_id = 1
   def __init__(self) -> None:    
     self.thread = None
