@@ -141,29 +141,30 @@ class StockInfoGetter(UrlHandler, CheckIterable):
     self.df = pd.DataFrame(litr, index=None, columns=self.liHead) #, columns=self.liHead)
     # print(self.df)
   
-  
-fp = fm.FontProperties(family=['AppleGothic'], size=12)
+# if __name__ == '__main__':
+print(__name__)
+# fp = fm.FontProperties(family=['AppleGothic'], size=12)
 
-sGetter = StockInfoGetter()
-res = sGetter.init()
-df = sGetter.df
-df.loc[df['등락률']<0, '전일비'] = -df['전일비']
-df.to_excel('output.xlsx', index=False)
-df = df.reset_index(drop=True)
-df.drop('N', axis=1, inplace=True)
-df.drop('토론실', axis=1, inplace=True)
-df = df.set_index('종목명')
-print(df.info())
-df.corr().to_excel('parse.xlsx')
-# print(df.to_string())
-df.plot()
+# sGetter = StockInfoGetter()
+# res = sGetter.init()
+# df = sGetter.df
+# df.loc[df['등락률']<0, '전일비'] = -df['전일비']
+# df.to_excel('output.xlsx', index=False)
+# df = df.reset_index(drop=True)
+# df.drop('N', axis=1, inplace=True)
+# df.drop('토론실', axis=1, inplace=True)
+# df = df.set_index('종목명')
+# print(df.info())
+# df.corr().to_excel('parse.xlsx')
+# # print(df.to_string())
+# df.plot()
 
-print(mpl.rcParams['font.family']) # font
-print(mpl.rcParams['font.size']) # size
+# print(mpl.rcParams['font.family']) # font
+# print(mpl.rcParams['font.size']) # size
 
-plt.rcParams['font.family'] = 'AppleGothic'
-mpl.rcParams['axes.unicode_minus'] = False
-plt.show()
+# plt.rcParams['font.family'] = 'AppleGothic'
+# mpl.rcParams['axes.unicode_minus'] = False
+# plt.show()
 
 # print(df.corr())
 # print(sGetter.df.loc[[0,2]])

@@ -23,32 +23,14 @@ class ThreadWrapper:
   
   def Run(self) -> any: pass
   
-class GoogleImageSearchParser(UrlHandler):
-  def __init__(self) -> None:
-    super().__init__()
     
-  def searchImage(self) -> any:
-    self.url = "https://www.google.com/search?q=korea&rlz=1C5CHFA_enKR1010KR1010&sxsrf=APwXEddiTIk2v25rMaUTASedf74K_d92qQ:1683176769403&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjYwryL8tr-AhXYEXAKHeeaCucQ_AUoAXoECAIQAw&biw=1504&bih=1556&dpr=2"
-    self.header = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    
-    try:
-      res = self.request(self.url, userAgent=self.header)
-      if res is None: return None
-    except:
-      print(f"GoogleImageSearchParser에서 Runtime Error가 발생함!!!")
-      return None
-        
-    bs = BeautifulSoup(res, 'html.parser')
-    img_tags = bs.find_all('img', attrs={'data-src':True})
-    
-    for img in img_tags:
-      url = img['data-src']
-      getter = GoogleImageGetter()
-      getter.startToGetImage(url, self.header)      
-      
     
     
 class GoogleImageGetter(UrlHandler, ThreadWrapper):
+  '''
+  image url을 입력받아 web server로부터 응답을 받아,
+  image data를 파일로 저장하는 Thread
+  '''
   def __init__(self) -> None:
     super().__init__()
     # print(f'{self.id}')
@@ -78,9 +60,42 @@ class GoogleImageGetter(UrlHandler, ThreadWrapper):
     
     return 0
     
-start = time.time()    
-sp = GoogleImageSearchParser()
-sp.searchImage()
-end = time.time()
-print(f'프로그램 종료 : {end-start}')
+    
+    
+class GoogleImageSearchParser(UrlHandler):
+  '''
+  구글 검색 페이지에서 이미지를 검색함
+  '''
+  def __init__(self) -> None:
+    super().__init__()
+    
+  def searchImage(self) -> any:
+    self.url = "https://www.google.com/search?q=korea&rlz=1C5CHFA_enKR1010KR1010&sxsrf=APwXEddiTIk2v25rMaUTASedf74K_d92qQ:1683176769403&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjYwryL8tr-AhXYEXAKHeeaCucQ_AUoAXoECAIQAw&biw=1504&bih=1556&dpr=2"
+    self.header = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+    
+    try:
+      res = self.request(self.url, userAgent=self.header)
+      if res is None: return None
+    except:
+      print(f"GoogleImageSearchParser에서 Runtime Error가 발생함!!!")
+      return None
+        
+    bs = BeautifulSoup(res, 'html.parser')
+    img_tags = bs.find_all('img', attrs={'data-src':True})
+    
+    for img in img_tags:
+      url = img['data-src']
+      getter = GoogleImageGetter()
+      getter.startToGetImage(url, self.header)
+  
+  
+  
+  
+    
+if __name__=='__main__':
+  start = time.time()    
+  sp = GoogleImageSearchParser()
+  sp.searchImage()
+  end = time.time()
+  print(f'프로그램 종료 : {end-start}')
 

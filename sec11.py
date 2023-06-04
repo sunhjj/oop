@@ -2,7 +2,6 @@
 파이썬의 특별한 Variables
 '''
 import pickle
-from collections.abc import Iterable
 from typing import Any
 from typing_extensions import SupportsIndex
 
@@ -12,9 +11,16 @@ a = 10
 b = 20
 str1 = "hello python"
 
+# read-only 변수로 변경 불가능
+# __name__ = "__sec11__"
+
+# module_name = "__sec11__"
+# __name__ = module_name
+
 print(__name__) # 해당 모듈의 이름을 반환한다.
 print(__doc__)  # 해당 모듈의 doc. string을 반환한다.
 print(__file__) # 해당 모듈의 파일 경로를 반환한다
+
 
 print(print.__name__) # 해당 오브젝트의 이름을 반환한다.
 print(print.__qualname__) # 해당 오브젝트의 경로 이름을 반환한다.
@@ -116,7 +122,7 @@ class Person:
     return self.age == __value.age
   
   # 객체를 함수처럼 사용할 수 있게 해주는 메소드
-  # *는 리스트 타입이며, **는 dict 타입이다.
+  # *는 리스트 타입이며, **는 dict 타입이다.   ex) kim(5), lee(10) 
   def __call__(self, *args: Any, **kwds: Any) -> Any:
     self.age += args[0]
     return self.age
@@ -124,6 +130,7 @@ class Person:
   # def hi(self) -> str:
   #   return f'안녕하세요, 저는 {self.name}이고 나이는 {self.age}살 입니다.'   
   
+  # hi라는 메소드가 속성(멤버변수)처럼 활용됨
   @property
   def hi(self) ->str:
     return f'안녕하세요, 저는 {self.name}이고 나이는 {self.age}살 입니다.'
@@ -149,6 +156,7 @@ class Person:
   def __new__(cls, obj:str=None, age:int=0):
     return super().__new__(cls)    
   
+  # 서브클래스가 상속을 받을때 호출됨
   def __init_subclass__(cls) -> None:
     print(cls)
     cls.subclasses += 1     # 여기서 cls:class는 Student class임에 주의!!!
@@ -162,7 +170,9 @@ class Person:
   
     
 class Student(Person):
-  '''Student 클래스입니다. name, age, grade 멤버 변수를 갖습니다'''
+  '''
+  Student 클래스입니다. name, age, grade 멤버 변수를 갖습니다
+  '''
   
   def __init__(self, name: str = None, age:int=0, grade:int=1) -> None:
     super().__init__(name)
@@ -202,6 +212,7 @@ class Student(Person):
   def __subclasscheck__(self, __subclass: type) -> bool:
     return super().__subclasscheck__(__subclass)
   
+  # int 타입을 파라미터로 받으면 int타입을 반환하도록...
   def __add__(self, val:int) -> int:
     return self.age + val
   
@@ -244,6 +255,7 @@ print(format(yoo, 'age'))
 print(lee==park)
 print(lee==yoo)
 
+# __call__
 print(yoo(5))
 print(song.hi)
 print(song(10))
@@ -257,30 +269,30 @@ print(song.setGrade.__qualname__)   # 소유권을 표현한 이름
 song.setGrade()
 print(song.hi)
 
+# Serialize
 data = pickle.dumps(song)
 print(data)
 
+# Unserialize
 new_song = pickle.loads(data)
 print(new_song.name)
 print(new_song.age)
 print(new_song.grade)
 print()
 
-print(Student.getSubClassCount())
+print(f'Student Class의 상속 횟수 : {Student.getSubClassCount()}')
 
 print(song.__sizeof__())
 
+# __add__ 메소드 오버라이딩
 sum_val = song + 1
-print(sum_val)
+print(f'sum_val = song + 1 의 결과 : {sum_val}')
 
 a = 0
 a += song
 print(a)
 
-
 # 이런게 가능하므로 싱글톤의 의미가 없어진다.
 # 파이썬은 문화적(?)으로 OOP를 지향한다. 
 # del kim.__class__.instances
 # print(yoo.__class__.instances)
-
-
