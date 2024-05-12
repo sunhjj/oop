@@ -1,0 +1,111 @@
+.country {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;  
+}
+
+.country img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+
+
+.articles {    
+  position: relative;
+  /* width: 1140px; */
+  display: inline-block;  
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+.article {    
+  position: relative;
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  margin: 1.5rem 1rem;
+  border: 1px solid lightgray;
+  border-radius: 1rem;
+  flex-shrink: 0; /* 크기 유지 */
+}
+
+.news_image {    
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  margin-right: 1.5rem;
+  border-radius: 10%;
+  border: 1px solid lightgray;  
+  flex-shrink: 0; /* 크기 유지 */
+}
+
+.news_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.news_block {    
+  width: 70%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;  
+  flex-grow: 1;
+  /* border: 1px solid lightgray;   */
+  /* padding-bottom: 2rem; */
+}
+
+.news_block a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+}
+
+.news_title {  
+  /* width: 100%; */
+  width: 100%;  
+  height: 25%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.1rem;    
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+}
+
+.news_desc{
+  width: 100%;
+  height: 50%;
+  font-size: 1.1rem;
+  color: dimgray;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  /* white-space: nowrap; 텍스트를 한 줄로 만듦 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+}
+
+.news_author {
+  font-size: 1.1rem;  
+  margin-bottom: 0.5rem;
+}
+
+.news_date {
+  font-size: 1rem;  
+  font-style: italic;
+  font-weight: lighter;
+  color : gray;  
+}

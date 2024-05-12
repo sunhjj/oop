@@ -1,0 +1,40 @@
+{
+  "base_url": "https://newsapi.org/v2/top-headlines",
+  "api_key": "739904b4b49c4cd1b425a7dc29361092",
+  "category": ["topic", "business", "entertainment", "health", "science", "sports", "technology"],
+  "language": 
+  [ 
+    {
+      "code":"kr",
+      "name":"Korea"
+    },
+    {
+      "code":"gb",
+      "name":"United Kingdom"
+    },
+    {
+      "code":"jp",
+      "name":"Japan"
+    },
+    {
+      "code":"cn",
+      "name":"China"
+    },
+    {
+      "code":"fr",
+      "name":"France"
+    },
+    {
+      "code":"de",
+      "name":"Germany"
+    },
+    {
+      "code":"us",
+      "name":"United States"
+    },
+    {
+      "code":"ru",
+      "name":"Russia"
+    }
+  ]
+}
