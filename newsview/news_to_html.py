@@ -21,7 +21,7 @@ class NewsToHtml:
           <h1>South Korea</h1>      
         </div>
       </div>
-      <div class="articles container">'''
+      <div class="articles container" name="NewsContainer">'''
       
     self.html_bottom = '''
       </div>  <!-- articles -->
@@ -34,17 +34,17 @@ class NewsToHtml:
 
   def add_article(self, image_url, url, title, desc, author, date):
     self.html_mid += f'''
-                      <div class="article">
+                      <div class="article" id="news_blcok">
                         
-                        <div class="news_image">
+                        <div class="news_image" id="news_image">
                           <img src="{image_url}" alt="">
                         </div> <!-- news_image -->
 
-                        <div class="news_block">
-                          <div class="news_title"><a href="{url}">{title}</a></div>
-                          <div class="news_desc">{desc}</div>
-                          <div class="news_author">{author}</div>
-                          <div class="news_date">{date}</div>    
+                        <div class="news_block" id="news_text">
+                          <div class="news_title" id="news_title"><a href="{url}">{title}</a></div>
+                          <div class="news_desc" id="news_desc">{desc}</div>
+                          <div class="news_author" id="news_author">{author}</div>
+                          <div class="news_date" id="news_date">{date}</div>    
                         </div>  <!-- news_block -->
 
                       </div>  <!-- article -->

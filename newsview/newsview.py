@@ -10,7 +10,7 @@ class NewsConfig:
           self.__base_url = config['base_url']
           self.__api_key = config['api_key']
           self.__category = config['category']
-          self.__language = config['language']  
+          self.__language = config['language']
           result = True        
       except Exception as e:
         print(f'Error: {e}')
