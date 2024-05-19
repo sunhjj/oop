@@ -1,6 +1,7 @@
-import os
 import json
 import requests
+from myutil import clear_screen, where
+
 
 class NewsConfig: 
     def __init__(self, config_file:str):      
@@ -63,11 +64,12 @@ class NewsLoader:
       raise Exception(f'Error: {e}')
   
   def remove_quotes(self) -> str:
+    chk = lambda x: x is not None
     for article in self.articles:
-      article['title'] = article['title'].replace('"', '')
-      article['description'] = article['description'].replace('"', '') if article['description'] is not None else ''
-      article['author'] = article['author'].replace('"', '') if article['author'] is not None else ''
-      article['source']['name'] = article['source']['name'].replace('"', '') if article['source']['name'] is not None else ''
+      article['title'] = where(chk(article['title']), article['title'], '').replace('"', '')
+      article['description'] = where(chk(article['description']), article['description'], '').replace('"', '')
+      article['author'] = where(chk(article['author']), article['author'], '').replace('"', '')
+      article['source']['name'] = where(chk(article['source']['name']), article['source']['name'], '').replace('"', '')
   
   def load_news(self, base_url:str, api_key:str, lang:str, category:str, vpp:int=20):
     try:
@@ -98,6 +100,11 @@ class NewsLoader:
       return
     
     self.pages = self.total_results // self.vpp + 1
+    
+  def get_page(self, page:int) -> iter:
+    start = (page-1) * self.vpp
+    end = start + self.vpp
+    return self.articles[start:end] if end < self.total_results else self.articles[start:]
   
   
    
@@ -105,8 +112,7 @@ class NewsLoader:
 
 
 
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 if __name__ == "__main__":
     news_conf = NewsConfig('config.json')    
@@ -151,4 +157,5 @@ if __name__ == "__main__":
       print(f'Author: {article["author"]}')
       print(f'Source: {article["source"]["name"]}')
         
+    
     

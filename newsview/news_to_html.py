@@ -1,8 +1,10 @@
+from myutil import clear_screen
 from newsview import NewsConfig, NewsLoader
+import datetime
 
 class NewsToHtml:
-  def __init__(self):
-    self.html_top = '''
+  def __init__(self, country_name='South Korea', category='topic'):
+    self.html_top = f'''
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -18,7 +20,8 @@ class NewsToHtml:
           <img src="resources/kr.svg" alt="">
         </div>
         <div class="country_name">
-          <h1>South Korea</h1>      
+          <h1>{country_name}</h1>
+          <h3>{category}</h3>
         </div>
       </div>
       <div class="articles container" name="NewsContainer">'''
@@ -51,21 +54,43 @@ class NewsToHtml:
                   '''
                   
   def save(self, filename):
-    with open(filename, 'w') as f:
-      f.write(self.html_top)
-      f.write(self.html_mid)
-      f.write(self.html_bottom)
+    try:
+      with open(filename, 'w') as f:
+        f.write(self.html_top)
+        f.write(self.html_mid)
+        f.write(self.html_bottom)
+    except Exception as e:
+      print(f'Error: {e}')
+      raise Exception(f'Error: {e}')
       
       
 if __name__ == "__main__":
   conf = NewsConfig('config.json')
   news_loader = NewsLoader()
+  
+  for i, lang in enumerate(conf.get_language()):
+    print(f'{i+1} : {lang["code"]}, {lang["name"]}')
+    
+  sel = int(input('Select language: '))
+  lang_code = conf.get_lang_code(sel-1)
+  lang_name = conf.get_language()[sel-1]['name']
+  
+  clear_screen()
+  
+  for i, cat in enumerate(conf.get_categories()):
+    print(f'{i+1} : {cat}')
+    
+  sel = int(input('Select category: '))
+  category = conf.get_category(sel-1)
+  
+  clear_screen()
+  
   news_loader.load_news(conf.get_base_url(), 
                         conf.get_api_key(), 
-                        conf.get_lang_code(0), 
-                        conf.get_category(0))
+                        lang_code, 
+                        category)
   
-  news_html = NewsToHtml()
+  news_html = NewsToHtml(lang_name, category)
   for article in news_loader.articles:
     news_html.add_article(article['urlToImage'], 
                           article['url'], 
@@ -74,4 +99,9 @@ if __name__ == "__main__":
                           article['author'], 
                           article['publishedAt'])
     
-  news_html.save('korea_news.html')
+  now = datetime.datetime.now()
+  current_datetime = now.strftime("%Y%m%d_%H%M%S")
+  html_filename = f'{lang_code}_{category}_{current_datetime}.html'
+  news_html.save(html_filename)
+  
+  print(f'HTML file saved as {html_filename}')
